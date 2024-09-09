@@ -13,9 +13,6 @@ from dash import callback, dcc, html, MATCH, Patch
 from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
 from monty.serialization import loadfn
-# from mp_web.apps.contributed_apps.redox_thermo_csp.redox_views import InitData as ID
-# from mp_web.apps.contributed_apps.redox_thermo_csp.redox_views import Isographs as Iso
-# from mp_web.apps.contributed_apps.redox_thermo_csp.redox_views import energy_analysis
 from mpships.redox_thermo_csp.redox_views import InitData as ID
 from mpships.redox_thermo_csp.redox_views import Isographs as Iso
 from mpships.redox_thermo_csp.redox_views import energy_analysis
