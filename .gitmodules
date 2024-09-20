@@ -1,0 +1,3 @@
+[submodule "mpships/src/mpships/ELATE_Crystal"]
+	path = mpships/src/mpships/ELATE_Crystal
+	url = git@github.com:fxcoudert/ELATE_Crystal.git
