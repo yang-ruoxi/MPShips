@@ -8,4 +8,4 @@ from pathlib import Path
 # from mpships.materials_graph import MaterialsGraphAIO
 
 
-MODULE_PATH = Path(__file__).parents[0]
+MODULE_PATH = str(Path(__file__).parents[0])

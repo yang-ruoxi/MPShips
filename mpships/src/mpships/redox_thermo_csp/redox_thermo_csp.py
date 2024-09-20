@@ -21,10 +21,10 @@ from mp_web.core.utils import (
     get_tooltip,
 )
 from pymatgen.util.string import unicodeify
-
+from mpships import MODULE_PATH
 
 logger = logging.getLogger(__name__)
-_EXP_DATA = loadfn("./exp_data.json")
+_EXP_DATA = loadfn(MODULE_PATH + "/redox_thermo_csp/exp_data.json")
 
 ISOGRAPHS_TOOLTIPS = {
     "Isotherm": "Shows the non-stoichiometry δ as a function of the oxygen partial pressure pO\N{SUPERSCRIPT TWO} (in bar) with fixed temperature T (in K)",
@@ -1086,7 +1086,7 @@ class RedoxThermoCSPAIO(html.Div):
         Input(ids.isographs_data_table(MATCH), "selectedRows")
     )
     def isograph_information_text(row):
-        return f"Showing Isographs for {unicodeify(row[0]["Oxidized Composition"])}"
+        return f"Showing Isographs for {unicodeify(row[0]['Oxidized Composition'])}"
 
     @callback(
         Output(ids.isotherm(MATCH), "figure"),

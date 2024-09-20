@@ -4,7 +4,7 @@ import json
 import numpy as np
 from itertools import groupby
 from scipy.optimize import brentq
-from mp_web.apps.contributed_apps.redox_thermo_csp.redox_utils import (
+from mpships.redox_thermo_csp.redox_utils import (
     remove_comp_one, 
     add_comp_one, 
     rootfind, 
