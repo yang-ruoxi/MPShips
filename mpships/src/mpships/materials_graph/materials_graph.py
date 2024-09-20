@@ -16,9 +16,8 @@ import altair as alt
 import dash_vega_components as dvc
 import plotly.graph_objects as go
 import json
-
 from mpships.vega_graph_table import VegaGraphTableAIO
-
+import uuid
 
 class MaterialsGraphAIO(html.Div):
 
@@ -51,22 +50,29 @@ class MaterialsGraphAIO(html.Div):
 
     ids = ids 
 
-    def __init__(self, aio, **kwargs):
-
-        self.aio = aio
+    def __init__(self, id=None, aio=None, **kwargs):
+        if aio is None:
+            # Otherwise use a uuid that has virtually no chance of collision.
+            # Uuids are safe in dash deployments with processes
+            # because this component's callbacks
+            # use a stateless pattern-matching callback:
+            # The actual ID does not matter as long as its unique and matches
+            # the PMC `MATCH` pattern..
+            aio_id = str(uuid.uuid4())
+        self.aio = aio_id
         self.kwargs = kwargs
 
         searchbar = html.Div(
             [
-            dcc.Input(id=self.ids.search_bar(aio), type='text', placeholder='Enter chemical system'),
-            html.Button('Submit', n_clicks=0,  id=self.ids.button(aio))
+            dcc.Input(id=self.ids.search_bar(aio_id), type='text', placeholder='Enter chemical system'),
+            html.Button('Submit', n_clicks=0,  id=self.ids.button(aio_id))
             ]
             )
-        quick_filter = dcc.Input(id=self.ids.quickFilter(aio), type='text', placeholder='Quick Filter')
+        quick_filter = dcc.Input(id=self.ids.quickFilter(aio_id), type='text', placeholder='Quick Filter')
 
-        datatable = dag.AgGrid(id=self.ids.datatable(aio), dashGridOptions={'pagination':True},)
+        datatable = dag.AgGrid(id=self.ids.datatable(aio_id), dashGridOptions={'pagination':True},)
 
-        vega_output = dcc.Loading(html.Div(id=self.ids.vega_output(aio)))
+        vega_output = dcc.Loading(html.Div(id=self.ids.vega_output(aio_id)))
 
         super().__init__(children=[
             searchbar,
@@ -77,7 +83,8 @@ class MaterialsGraphAIO(html.Div):
 
     @callback(
         Output(ids.datatable(MATCH), "dashGridOptions"),
-        Input(ids.quickFilter(MATCH), "value")
+        Input(ids.quickFilter(MATCH), "value"),
+        allow_duplicate=True,
     )
     def update_filter(filter_value):
         newFilter = Patch()
@@ -91,6 +98,7 @@ class MaterialsGraphAIO(html.Div):
         Input(ids.button(MATCH), "n_clicks"),
         State(ids.search_bar(MATCH), "value"),
         prevent_initial_call=True,
+        allow_duplicate=True,
 
     )
     def update_datatable(n_clicks, value):
@@ -122,7 +130,7 @@ def _clean_dict(d):
 
 
 if __name__ == "__main__":
-    app = dash.Dash(__name__)
+    app = dash.Dash(__name__, suppress_callback_exceptions=True, use_pages=False)
     app.layout = html.Div(MaterialsGraphAIO(aio="test"))
     app.run_server(debug=True)
 
