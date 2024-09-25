@@ -21,4 +21,4 @@ To start using or contributing to MP Ships, follow these steps:
 
 2. **Example apps**
    
-   Please see this [notebook](mpships/src/examples/getting_started.ipynb) before you develop your first MP App. 
+   Please see this [notebook](mpships/src/examples/Contribute_MPApp.ipynb) before you develop your first MP App. 
