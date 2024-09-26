@@ -8,7 +8,8 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import warnings
-
+import os.path
+import uuid
 from dash import callback, dcc, html, MATCH, Patch
 from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
@@ -21,10 +22,12 @@ from mp_web.core.utils import (
     get_tooltip,
 )
 from pymatgen.util.string import unicodeify
-from mpships import MODULE_PATH
 
 logger = logging.getLogger(__name__)
-_EXP_DATA = loadfn(MODULE_PATH + "/redox_thermo_csp/exp_data.json")
+
+
+# Load the JSON file
+_EXP_DATA = loadfn(os.path.join(os.path.dirname(__file__), "exp_data.json"))
 
 ISOGRAPHS_TOOLTIPS = {
     "Isotherm": "Shows the non-stoichiometry δ as a function of the oxygen partial pressure pO\N{SUPERSCRIPT TWO} (in bar) with fixed temperature T (in K)",
@@ -255,10 +258,18 @@ class RedoxThermoCSPAIO(html.Div):
 
     ids = ids
 
-    def __init__(self, aio, *args, **kwargs):
+    def __init__(self, aio=None, *args, **kwargs):
         # define the layout here and put the layout inside of:
         # "super().__init__(children=[<< put layout here>>], **kwargs)"
         # at the end of the __init__ method.
+        if aio is None:
+            # Otherwise use a uuid that has virtually no chance of collision.
+            # Uuids are safe in dash deployments with processes
+            # because this component's callbacks
+            # use a stateless pattern-matching callback:
+            # The actual ID does not matter as long as its unique and matches
+            # the PMC `MATCH` pattern..
+            aio = str(uuid.uuid4())
         self.aio = aio
         self.kwargs = kwargs
 
