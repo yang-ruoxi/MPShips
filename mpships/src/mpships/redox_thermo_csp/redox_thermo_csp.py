@@ -1616,60 +1616,64 @@ def query_mp_contribs_energy_analysis(
         ],
         paginate=True,
     )
+    if contributions_resp:
+
     # reformat MPContribs data to work with Josua Vieten's original code
-    data = [
-        {
-            "energy_analysis": [
-                {
-                    "Chemical Energy": float(
-                        contributions_resp["data"][i]["data"]["chemicalEnergy"]
-                    ),
-                    "p_red": float(contributions_resp["data"][i]["data"]["pRed"]),
-                    "l_prod_kg_red": float(
-                        contributions_resp["data"][i]["data"]["lProdKgRed"]
-                    ),
-                    "prodstr": contributions_resp["data"][i]["data"]["prodstr"],
-                    "mol_mass_ox": float(
-                        contributions_resp["data"][i]["data"]["molMassOx"]
-                    ),
-                    "mol_prod_mol_red": float(
-                        contributions_resp["data"][i]["data"]["molProdMolRed"]
-                    ),
-                    "Sensible Energy": float(
-                        contributions_resp["data"][i]["data"]["sensibleEnergy"]
-                    ),
-                    "p_ox": float(contributions_resp["data"][i]["data"]["pOx"]),
-                    "T_red": float(contributions_resp["data"][i]["data"]["TRed"]),
-                    "mass_redox": float(
-                        contributions_resp["data"][i]["data"]["massRedox"]
-                    ),
-                    "delta_1": float(
-                        contributions_resp["data"][i]["data"]["delta1"]
-                    ),
-                    "T_ox": float(contributions_resp["data"][i]["data"]["TOx"]),
-                    "prodstr_alt": contributions_resp["data"][i]["data"][
-                        "prodstrAlt"
-                    ],
-                    "g_prod_kg_red": float(
-                        contributions_resp["data"][i]["data"]["gProdKgRed"]
-                    ),
-                    "unstable": (
-                        True
-                        if contributions_resp["data"][i]["data"]["unstable"]
-                        == "True"
-                        else False
-                    ),
-                    "compstr": contributions_resp["data"][i]["data"]["compstr"],
-                    "delta_2": float(
-                        contributions_resp["data"][i]["data"]["delta2"]
-                    ),
-                }
-                for i in range(len(contributions_resp["data"]))
-            ],
-            "_id": contributions_resp["data"][0]["data"]["id"],
-            "updated": contributions_resp["data"][0]["data"]["updated"],
-        }
-    ]
+        data = [
+            {
+                "energy_analysis": [
+                    {
+                        "Chemical Energy": float(
+                            contributions_resp["data"][i]["data"]["chemicalEnergy"]
+                        ),
+                        "p_red": float(contributions_resp["data"][i]["data"]["pRed"]),
+                        "l_prod_kg_red": float(
+                            contributions_resp["data"][i]["data"]["lProdKgRed"]
+                        ),
+                        "prodstr": contributions_resp["data"][i]["data"]["prodstr"],
+                        "mol_mass_ox": float(
+                            contributions_resp["data"][i]["data"]["molMassOx"]
+                        ),
+                        "mol_prod_mol_red": float(
+                            contributions_resp["data"][i]["data"]["molProdMolRed"]
+                        ),
+                        "Sensible Energy": float(
+                            contributions_resp["data"][i]["data"]["sensibleEnergy"]
+                        ),
+                        "p_ox": float(contributions_resp["data"][i]["data"]["pOx"]),
+                        "T_red": float(contributions_resp["data"][i]["data"]["TRed"]),
+                        "mass_redox": float(
+                            contributions_resp["data"][i]["data"]["massRedox"]
+                        ),
+                        "delta_1": float(
+                            contributions_resp["data"][i]["data"]["delta1"]
+                        ),
+                        "T_ox": float(contributions_resp["data"][i]["data"]["TOx"]),
+                        "prodstr_alt": contributions_resp["data"][i]["data"][
+                            "prodstrAlt"
+                        ],
+                        "g_prod_kg_red": float(
+                            contributions_resp["data"][i]["data"]["gProdKgRed"]
+                        ),
+                        "unstable": (
+                            True
+                            if contributions_resp["data"][i]["data"]["unstable"]
+                            == "True"
+                            else False
+                        ),
+                        "compstr": contributions_resp["data"][i]["data"]["compstr"],
+                        "delta_2": float(
+                            contributions_resp["data"][i]["data"]["delta2"]
+                        ),
+                    }
+                    for i in range(len(contributions_resp["data"]))
+                ],
+                "_id": contributions_resp["data"][0]["data"]["id"],
+                "updated": contributions_resp["data"][0]["data"]["updated"],
+            }
+        ]
+    else:
+        data = None
     return data
 
 
