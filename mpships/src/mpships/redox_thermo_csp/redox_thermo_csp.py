@@ -357,7 +357,7 @@ class RedoxThermoCSPAIO(html.Div):
         updated = []
 
         # organize MpContribs data into lists for DataFrame
-        mpr = get_rester()
+        mpr = get_rester(use_document_model=False)
         isographs_contributions_resp = mpr.contribs.query_contributions(
             query={
                 "project": "redox_thermo_csp",
@@ -1661,7 +1661,7 @@ def query_mp_contribs_energy_analysis(
     db_id += str(float(p_red)) + "_"
     db_id += str(data_source) + "_"
     db_id += str(float(enth_steps))
-    mpr = get_rester()
+    mpr = get_rester(use_document_model=False)
     # Fetch contribution-level data
     contributions_resp = mpr.contribs.query_contributions(
         query={"project": "redox_thermo_csp_energy", "data__id__exact": db_id},
@@ -1977,7 +1977,7 @@ def reformat_isograph_data(compstr):
     """for use in isographs callbacks to get the isographs data into the correct format for
     use in other methods"""
     # find the data for the row the user clicked on
-    mpr = get_rester()
+    mpr = get_rester(use_document_model=False)
     isographs_contributions_resp = mpr.contribs.query_contributions(
         query={
             "project": "redox_thermo_csp",
